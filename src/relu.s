@@ -29,7 +29,16 @@ relu:
 
 loop_start:
     # TODO: Add your own implementation
-
+    # Load number from memory
+    lw t0, 0(a0)
+    bge t0, zero, loop_end
+    # Store number back to memory
+    sw zero, 0(a0)
+loop_end:
+    addi t1, t1, 1
+    addi a0, a0, 4
+    bne t1, a1, loop_start
+    jr ra
 error:
     li a0, 36          
     j exit          
