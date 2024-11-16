@@ -38,18 +38,34 @@ dot:
     # Change to stride*4
     slli a3, a3, 2
     slli a4, a4, 2
+
+    li t0, 0
 loop_start:
+    li t4, 0
     bge t1, a2, loop_end
     # TODO: Add your own implementation
     # Load number from memory
     lw t1, 0(a0)
     lw t2, 0(a1)
-
+    li t3, 0
+    beq t1, zero, end_mul
+    bge t1, zero, checkt2
+    sub t1, zero, t1
+    addi t3, t3, 1
+    checkt2:
+    bge t2, zero, multiply
+    sub t2, zero, t2
+    addi t3, t3, -1
+    
     multiply:
-    add t0, t0, t2
+    add t4, t4, t2
     addi t1, t1, -1
     bgt t1, zero, multiply
-
+    beq t3, zero, end_mul
+    sub t4, zero, t4
+    
+    end_mul:
+    add t0, t0, t4
     addi a2, a2, -1
     add a0, a0, a3
     add a1, a1, a4
